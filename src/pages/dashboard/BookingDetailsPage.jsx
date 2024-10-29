@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import patientServices from "../../services/patientServices";
+import { FaArrowLeft } from "react-icons/fa6";
 
 const BookingDetailsPage = () => {
   const { id } = useParams();
@@ -11,7 +12,7 @@ const BookingDetailsPage = () => {
     const fetchPatientInformation = async () => {
       try {
         const data = await patientServices.fetchPatient(id);
-        console.log("patientInformation >> ", data);
+        console.log("patientInformation >> ", data?.patient);
         setPatientDetails(data?.patient);
       } catch (error) {
         console.log("patientInformation error >> ", error);
@@ -32,40 +33,73 @@ const BookingDetailsPage = () => {
 
   return (
     <div className="w-full bg-gray-50 p-6">
-      <h1 className="font-semibold text-xl">Booking Details</h1>
-
+      <div className="w-full flex items-center gap-3">
+        <Link to={"/"}>
+          <FaArrowLeft className="text-xl" />
+        </Link>
+        <h1 className="font-semibold text-xl">Order Details</h1>
+      </div>
       <div className="w-full bg-white p-6 lg:p-10 rounded-xl mt-6">
-        <h2 className="text-lg font-semibold">Patient Info:</h2>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+        <div className="w-full flex items-center justify-between mb-10">
+          <h2 className="text-lg font-semibold">Patient Info:</h2>
+          <div className="flex items-center justify-end gap-x-6">
+            <p className="text-sm font-medium secondary-text">
+              Order date: {formatDate(patientdetails?.createdAt)}
+            </p>
+            <a
+              target="_blank"
+              href={`http://localhost:8000${patientdetails?.invoicePath}`}
+              className="text-sm font-semibold text-red-500 underline"
+            >
+              View Invoice
+            </a>
+          </div>
+        </div>
+
+        <div className="w-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-6 mt-6">
           <div className="flex flex-col items-start gap-2">
             <p className="font-medium">Name:</p>
             <p className="text-sm font-medium secondary-text">
-              {patientdetails?.patientInfo?.firstName}{" "}
-              {patientdetails?.patientInfo?.lastName}
+              {patientdetails?.patient?.patientInfo?.firstName}{" "}
+              {patientdetails?.patient?.patientInfo?.lastName}
             </p>
           </div>
           <div className="flex flex-col items-start gap-2">
             <p className="font-medium">Email:</p>
             <p className="text-sm font-medium secondary-text text-wrap">
-              {patientdetails?.patientInfo?.email}
+              {patientdetails?.patient?.patientInfo?.email}
             </p>
           </div>
           <div className="flex flex-col items-start gap-2">
             <p className="font-medium">Phone No.</p>
             <p className="text-sm font-medium secondary-text">
-              {patientdetails?.patientInfo?.phoneNumber}
+              {patientdetails?.patient?.patientInfo?.phoneNumber}
             </p>
           </div>
           <div className="flex flex-col items-start gap-2">
             <p className="font-medium">Date of Birth.</p>
             <p className="text-sm font-medium secondary-text">
-              {formatDate(patientdetails?.patientInfo?.dob)}
+              {formatDate(patientdetails?.patient?.patientInfo?.dob)}
             </p>
           </div>
         </div>
-        <h2 className="text-lg font-semibold mt-16 pb-6">Therapy Details:</h2>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <div className="flex flex-col items-start gap-2">
+
+        <div className="w-full border my-10 border-gray-200" />
+
+        <h2 className="text-lg font-semibold pb-6">Ordered Therapies:</h2>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-6">
+          {patientdetails?.selectedTherapies?.map((therapy, index) => {
+            return (
+              <div className="flex flex-col items-start gap-2" key={index}>
+                <p className="font-medium">Testosterone Therapy:</p>
+                <p className="text-sm font-medium secondary-text">
+                  {therapy?.therapyName}
+                  {" - "} {therapy?.selectedOptionName}
+                </p>
+              </div>
+            );
+          })}
+          {/* <div className="flex flex-col items-start gap-2">
             <p className="font-medium">Testosterone Therapy:</p>
             <p className="text-sm font-medium secondary-text">
               {patientdetails?.therapyDetails?.testosterone?.title}
@@ -92,10 +126,10 @@ const BookingDetailsPage = () => {
               {patientdetails?.therapyDetails?.weightLoss?.title}
               {" - "}${patientdetails?.therapyDetails?.weightLoss?.price}
             </p>
-          </div>
+          </div> */}
         </div>
 
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-16">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6 mt-16">
           <div className="flex flex-col items-start gap-2">
             <p className="font-medium">Lab Work Details:</p>
             <p className="text-sm font-medium secondary-text">
@@ -106,75 +140,79 @@ const BookingDetailsPage = () => {
           </div>
         </div>
 
-        <h2 className="text-lg font-semibold mt-16 pb-6">Shipping Info:</h2>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="w-full border my-10 border-gray-200" />
+
+        <h2 className="text-lg font-semibold pb-6">Shipping Info:</h2>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-8">
           <div className="flex flex-col items-start gap-2">
             <p className="font-medium">Street Address:</p>
             <p className="text-sm font-medium secondary-text">
-              {patientdetails?.shippingInfo?.shippingStreetAddress}
+              {patientdetails?.patient?.shippingInfo?.shippingStreetAddress}
             </p>
           </div>
           <div className="flex flex-col items-start gap-2">
             <p className="font-medium">Address Line 2:</p>
             <p className="text-sm font-medium secondary-text">
-              {patientdetails?.shippingInfo?.shippingAddressLine}
+              {patientdetails?.patient?.shippingInfo?.shippingAddressLine}
             </p>
           </div>
           <div className="flex flex-col items-start gap-2">
             <p className="font-medium">City:</p>
             <p className="text-sm font-medium secondary-text">
-              {patientdetails?.shippingInfo?.shippingCity}
+              {patientdetails?.patient?.shippingInfo?.shippingCity}
             </p>
           </div>
           <div className="flex flex-col items-start gap-2">
             <p className="font-medium">State:</p>
             <p className="text-sm font-medium secondary-text">
-              {patientdetails?.shippingInfo?.shippingState}
+              {patientdetails?.patient?.shippingInfo?.shippingState}
             </p>
           </div>
           <div className="flex flex-col items-start gap-2">
             <p className="font-medium">Zip Code:</p>
             <p className="text-sm font-medium secondary-text">
-              {patientdetails?.shippingInfo?.shippingZipCode}
+              {patientdetails?.patient?.shippingInfo?.shippingZipCode}
             </p>
           </div>
         </div>
 
-        <h2 className="text-lg font-semibold mt-16 pb-6">Billing Info:</h2>
-        {patientdetails?.isBillingSameAsShipping ? (
+        <div className="w-full border my-10 border-gray-200" />
+
+        <h2 className="text-lg font-semibold pb-6">Billing Info:</h2>
+        {patientdetails?.patient?.isBillingSameAsShipping ? (
           <p className="text-sm font-medium secondary-text">
             Billing information is same as shipping information.
           </p>
         ) : (
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="w-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-8">
             <div className="flex flex-col items-start gap-2">
               <p className="font-medium">Street Address:</p>
               <p className="text-sm font-medium secondary-text">
-                {patientdetails?.billingInfo?.billingStreetAddress}
+                {patientdetails?.patient?.billingInfo?.billingStreetAddress}
               </p>
             </div>
             <div className="flex flex-col items-start gap-2">
               <p className="font-medium">Address Line 2:</p>
               <p className="text-sm font-medium secondary-text">
-                {patientdetails?.billingInfo?.billingAddressLine}
+                {patientdetails?.patient?.billingInfo?.billingAddressLine}
               </p>
             </div>
             <div className="flex flex-col items-start gap-2">
               <p className="font-medium">City:</p>
               <p className="text-sm font-medium secondary-text">
-                {patientdetails?.billingInfo?.billingCity}
+                {patientdetails?.patient?.billingInfo?.billingCity}
               </p>
             </div>
             <div className="flex flex-col items-start gap-2">
               <p className="font-medium">State:</p>
               <p className="text-sm font-medium secondary-text">
-                {patientdetails?.billingInfo?.billingState}
+                {patientdetails?.patient?.billingInfo?.billingState}
               </p>
             </div>
             <div className="flex flex-col items-start gap-2">
               <p className="font-medium">Zip Code:</p>
               <p className="text-sm font-medium secondary-text">
-                {patientdetails?.billingInfo?.billingZipCode}
+                {patientdetails?.patient?.billingInfo?.billingZipCode}
               </p>
             </div>
           </div>

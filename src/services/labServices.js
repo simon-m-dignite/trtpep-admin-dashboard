@@ -1,9 +1,13 @@
 import axios from "axios";
-
-const API_BASE_URL = "https://backend.trtpep.com/api";
+import { BASE_URL } from "../api/api";
 
 const handleResponse = (response) => {
-  if (response.status === 200) {
+  if (
+    response.status === 200 ||
+    response.status === 201 ||
+    response.status === 400 ||
+    response.status === 401
+  ) {
     return response.data;
   } else {
     throw new Error(response.statusText);
@@ -12,7 +16,7 @@ const handleResponse = (response) => {
 
 const fetchLabOrders = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/get-lab-orders`);
+    const response = await axios.get(`${BASE_URL}/get-lab-orders`);
     return handleResponse(response);
   } catch (error) {
     throw new Error(
@@ -23,7 +27,7 @@ const fetchLabOrders = async () => {
 
 const fetchLabOrder = async (id) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/get-lab-order/${id}`);
+    const response = await axios.get(`${BASE_URL}/get-lab-order/${id}`);
     return handleResponse(response);
   } catch (error) {
     throw new Error(
@@ -32,7 +36,21 @@ const fetchLabOrder = async (id) => {
   }
 };
 
+const fethcCustomerOrdersByEmail = async (email) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/lab/get-customer-orders/${email}`
+    );
+    return await handleResponse(response);
+  } catch (error) {
+    throw new Error(
+      error.message ? error.response.data.message : error.message
+    );
+  }
+};
+
 export default {
   fetchLabOrders,
   fetchLabOrder,
+  fethcCustomerOrdersByEmail,
 };

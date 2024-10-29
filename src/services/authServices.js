@@ -1,12 +1,14 @@
 // authService.js
 import axios from "axios";
 import Cookies from "js-cookie";
-
-const API_URL = "https://backend.trtpep.com/api";
+import { BASE_URL } from "../api/api";
 
 export const signUp = async (email, password) => {
   try {
-    const response = await axios.post(`${API_URL}/signup`, { email, password });
+    const response = await axios.post(`${BASE_URL}/signup`, {
+      email,
+      password,
+    });
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -21,7 +23,7 @@ export const signUp = async (email, password) => {
 
 export const login = async (email, password) => {
   try {
-    const response = await axios.post(`${API_URL}/auth/login`, {
+    const response = await axios.post(`${BASE_URL}/auth/login`, {
       email,
       password,
     });
@@ -42,7 +44,7 @@ export const login = async (email, password) => {
 
 export const verifyEmail = async (email) => {
   try {
-    const response = await axios.post(`${API_URL}/auth/forgot-password`, {
+    const response = await axios.post(`${BASE_URL}/auth/forgot-password`, {
       email,
     });
     localStorage.setItem("verifyEmail", email);
@@ -64,7 +66,7 @@ export const verifyEmail = async (email) => {
 export const verifyOtp = async (code) => {
   try {
     const email = localStorage.getItem("verifyEmail");
-    const response = await axios.post(`${API_URL}/auth/verify-otp`, {
+    const response = await axios.post(`${BASE_URL}/auth/verify-otp`, {
       email,
       code,
     });
@@ -84,7 +86,7 @@ export const verifyOtp = async (code) => {
 export const resetPassword = async (password) => {
   try {
     const email = localStorage.getItem("verifyEmail");
-    const resp = await axios.post(`${API_URL}/auth/reset-password`, {
+    const resp = await axios.post(`${BASE_URL}/auth/reset-password`, {
       email,
       password,
     });

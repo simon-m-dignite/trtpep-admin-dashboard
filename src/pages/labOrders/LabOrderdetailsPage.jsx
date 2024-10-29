@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import labServices from "../../services/labServices";
+import { FaArrowLeft } from "react-icons/fa";
 
 const LabOrderdetailsPage = () => {
   const { id } = useParams();
@@ -31,11 +32,26 @@ const LabOrderdetailsPage = () => {
   };
   return (
     <div className="w-full bg-gray-50 p-6 min-h-screen">
-      <h1 className="font-semibold text-xl">Lab Order Details</h1>
+      <div className="flex items-center gap-3">
+        <Link to={"/lab-orders"}>
+          <FaArrowLeft className="text-xl" />
+        </Link>
+        <h1 className="font-semibold text-xl">Lab Order Details</h1>
+      </div>
 
       <div className="w-full bg-white rounded-xl p-6 lg:p-8 mt-6">
-        <h2 className="font-medium text-lg mb-6">Patient Info:</h2>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="w-full flex items-start justify-between">
+          <h2 className="font-medium text-lg mb-6">Patient Info:</h2>
+          <a
+            href={`http://localhost:8000${labOrderDetails?.invoicePath}`}
+            target="_blank"
+            className="text-sm underline text-red-500 font-semibold"
+          >
+            View Invoice
+          </a>
+        </div>
+
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
           <div className="flex flex-col items-start gap-1">
             <p className="font-medium">Name:</p>
             <p className="text-sm font-medium secondary-text">
@@ -62,20 +78,22 @@ const LabOrderdetailsPage = () => {
           </div>
         </div>
 
-        <h2 className="font-medium text-lg mt-10 mb-6">Billing Info:</h2>
-        <div className="flex flex-col items-start gap-1">
-          <p className="font-medium">Street Address:</p>
-          <p className="text-sm font-medium secondary-text">
-            {labOrderDetails?.billingAddress}
-          </p>
-        </div>
-        <div className="flex flex-col items-start gap-1 my-6">
-          <p className="font-medium">Address Line 2:</p>
-          <p className="text-sm font-medium secondary-text">
-            {labOrderDetails?.billingAddressLine}
-          </p>
-        </div>
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="w-full border my-10 border-gray-200" />
+
+        <h2 className="font-medium text-lg mb-6">Billing Info:</h2>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+          <div className="flex flex-col items-start gap-1">
+            <p className="font-medium">Street Address:</p>
+            <p className="text-sm font-medium secondary-text">
+              {labOrderDetails?.billingAddress}
+            </p>
+          </div>
+          <div className="flex flex-col items-start gap-1">
+            <p className="font-medium">Address Line 2:</p>
+            <p className="text-sm font-medium secondary-text">
+              {labOrderDetails?.billingAddressLine}
+            </p>
+          </div>
           <div className="flex flex-col items-start gap-1">
             <p className="font-medium">City:</p>
             <p className="text-sm font-medium secondary-text">
@@ -96,7 +114,9 @@ const LabOrderdetailsPage = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-start gap-1 mt-10">
+        <div className="w-full border my-10 border-gray-200" />
+
+        <div className="flex flex-col items-start gap-1">
           <p className="font-medium text-lg">Amount:</p>
           <p className="text-sm font-medium secondary-text">
             ${labOrderDetails?.amount}

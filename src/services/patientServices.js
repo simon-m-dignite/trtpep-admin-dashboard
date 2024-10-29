@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_BASE_URL = "https://backend.trtpep.com/api";
+import { BASE_URL } from "../api/api";
 
 const handleResponse = (response) => {
   if (response.status === 200) {
@@ -12,7 +11,7 @@ const handleResponse = (response) => {
 
 const fetchPatients = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/get-patients`);
+    const response = await axios.get(`${BASE_URL}/get-patients`);
     return handleResponse(response);
   } catch (error) {
     throw new Error(
@@ -23,7 +22,7 @@ const fetchPatients = async () => {
 
 const fetchPatient = async (id) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/get-patient/${id}`);
+    const response = await axios.get(`${BASE_URL}/get-patient/${id}`);
     return handleResponse(response);
   } catch (error) {
     throw new Error(
@@ -34,7 +33,7 @@ const fetchPatient = async (id) => {
 
 const fetchEnrolledPatients = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/get-enrolled-patients`);
+    const response = await axios.get(`${BASE_URL}/get-enrolled-patients`);
     return handleResponse(response);
   } catch (error) {
     throw new Error(
@@ -43,8 +42,22 @@ const fetchEnrolledPatients = async () => {
   }
 };
 
+const searchPatientByEmail = async (email) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/get-enrolled-patient/${email}`
+    );
+    return await handleResponse(response);
+  } catch (error) {
+    throw new Error(
+      error.message ? error.response.data.message : error.message
+    );
+  }
+};
+
 export default {
   fetchPatients,
   fetchPatient,
   fetchEnrolledPatients,
+  searchPatientByEmail,
 };

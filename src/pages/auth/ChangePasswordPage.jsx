@@ -23,6 +23,9 @@ const ChangePasswordPage = () => {
       const data = await AuthServices2.resetPassword(password, email);
       console.log("changedPassword data >> ", data);
       toast.success(data.message);
+      if (data.status == 200) {
+        navigate("/login");
+      }
     } catch (error) {
       console.log("changed password error >> ", error);
       toast.error(error.message);

@@ -11,7 +11,7 @@ const Layout = ({ pages }) => {
 
   useEffect(() => {
     const userProfile = Cookies.get("userProfile");
-    console.log("userProfile >> ", userProfile);
+    // console.log("userProfile >> ", userProfile);
     const adminEmail = Cookies.get("adminEmail");
     const adminName = Cookies.get("adminName");
     setEmail(adminEmail);
@@ -32,13 +32,13 @@ const Layout = ({ pages }) => {
         onClick={toggleModal}
         className={`w-screen h-screen fixed top-0 left-0 transition-all duration-500  ${
           isOpen ? " lg:translate-x-0" : "-translate-x-full lg:translate-x-0"
-        } lg:static  z-[2000] lg:z-auto px-3 lg:w-60 xl:w-72 flex flex-col gap-3 items-center justify-start py-0 lg:h-full `}
+        } lg:static  z-40 lg:z-auto px-3 lg:w-60 xl:w-72 flex flex-col gap-3 items-center justify-start py-0 lg:h-full `}
       >
         <div
           ref={sidebarRef}
           className={`fixed top-0 left-0 transition-all duration-200  ${
             isOpen ? " lg:translate-x-0" : "-translate-x-full lg:translate-x-0"
-          } lg:static w-[60%] z-[2000] lg:z-auto lg:w-60 xl:w-72 flex flex-col gap-3 items-center justify-start py-0 h-full bg-white`}
+          } lg:static w-[60%] z-40 lg:z-auto lg:w-60 xl:w-72 flex flex-col gap-3 items-center justify-start py-0 h-full bg-white`}
         >
           <Sidebar />
         </div>
@@ -55,7 +55,7 @@ const Layout = ({ pages }) => {
           <div className="flex gap-3 items-center  py-4 font-normal text-gray-900">
             <div className="relative bg-[#c00000]/[0.05] rounded-full h-10 w-10">
               <img
-                class="h-full w-full rounded-full object-cover object-center"
+                className="h-full w-full rounded-full object-cover object-center"
                 src={"/profile-img.png"}
                 alt=""
               />

@@ -5,11 +5,14 @@ import labServices from "../../services/labServices";
 import { FaUsers } from "react-icons/fa";
 import { HiClipboardDocumentList } from "react-icons/hi2";
 import { FaUserGroup } from "react-icons/fa6";
+import customerServices from "../../services/customerServices";
+import { PiUsersFourFill } from "react-icons/pi";
 
 const DashboardPage = () => {
   const [newPatients, setNewPatients] = useState([]);
   const [labOrders, setLabOrders] = useState([]);
   const [enrolledPatients, setEnrolledPatients] = useState([]);
+  const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
     document.title = "TRTPEP - Dashboard";
@@ -17,7 +20,9 @@ const DashboardPage = () => {
       const patient_data = await patientServices.fetchPatients();
       const labOrders = await labServices.fetchLabOrders();
       const patients = await patientServices.fetchEnrolledPatients();
-      // console.log("enrolledPatients >> ", patients.data);
+      const customers = await customerServices.handleFetchCustomers();
+      // console.log("customers >> ", customers.data);
+      setCustomers(customers.data);
       setNewPatients(patient_data.patients);
       setLabOrders(labOrders.labOrders);
       setEnrolledPatients(patients.data);
@@ -38,7 +43,9 @@ const DashboardPage = () => {
             <h2 className="text-xl font-semibold">
               {newPatients.length > 0 ? newPatients.length : 0}
             </h2>
-            <h2 className="text-sm font-medium secondary-text">New Patients</h2>
+            <h2 className="text-sm font-medium secondary-text">
+              Therapy Orders
+            </h2>
           </div>
         </div>
         <div className="rounded-xl bg-white p-6 flex items-center justify-start gap-3">
@@ -49,7 +56,9 @@ const DashboardPage = () => {
             <h2 className="text-xl font-semibold">
               {labOrders.length > 0 ? labOrders.length : 0}
             </h2>
-            <h2 className="text-sm font-medium secondary-text">Lab Orders</h2>
+            <h2 className="text-sm font-medium secondary-text">
+              Only Lab Orders
+            </h2>
           </div>
         </div>
         <div className="rounded-xl bg-white p-6 flex items-center justify-start gap-3">
@@ -63,6 +72,17 @@ const DashboardPage = () => {
             <h2 className="text-sm font-medium secondary-text">
               Enrolled Patients
             </h2>
+          </div>
+        </div>
+        <div className="rounded-xl bg-white p-6 flex items-center justify-start gap-3">
+          <div className="w-[64px] h-[64px] rounded-[18px] bg-red-50 flex items-center justify-center p-4">
+            <PiUsersFourFill className="text-[#ef4444]/90 w-full h-full" />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold">
+              {customers.length > 0 ? customers.length : 0}
+            </h2>
+            <h2 className="text-sm font-medium secondary-text">Customers</h2>
           </div>
         </div>
       </div>
