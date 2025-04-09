@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
 import ImageResize from "quill-image-resize-module-react";
+import { FaArrowLeft } from "react-icons/fa";
 
 Quill.register("modules/imageResize", ImageResize);
 
@@ -61,7 +62,12 @@ const UpdateCancelationPolicyPage = () => {
 
   return (
     <div className="w-full p-6 bg-gray-50">
-      <h2 className="text-xl font-semibold mb-6">Update Policy</h2>
+      <div className="w-full flex items-center justify-start gap-3 mb-6">
+        <Link to="/policy/privacy-policy">
+          <FaArrowLeft className="text-2xl" />
+        </Link>
+        <h2 className="text-xl font-semibold">Update Policy</h2>
+      </div>
 
       <form
         onSubmit={handleSubmit}
@@ -75,7 +81,7 @@ const UpdateCancelationPolicyPage = () => {
         />
         <div className="w-full mt-16 flex items-center justify-end gap-3">
           <Link
-            to="/"
+            to="/policy/cancelation-policy"
             className="bg-red-600 text-white px-10 py-3 rounded-lg text-sm font-medium"
           >
             Cancel

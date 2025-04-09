@@ -4,6 +4,8 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
 import ImageResize from "quill-image-resize-module-react";
+import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 
 Quill.register("modules/imageResize", ImageResize);
 
@@ -58,7 +60,12 @@ const UpdateTermsOfService = () => {
 
   return (
     <div className="w-full p-6 bg-gray-50">
-      <h2 className="text-xl font-semibold mb-6">Update Policy</h2>
+      <div className="w-full flex items-center gap-3 mb-6">
+        <Link to="/policy/privacy-policy">
+          <FaArrowLeft className="text-2xl" />
+        </Link>
+        <h2 className="text-xl font-semibold">Update Policy</h2>
+      </div>
 
       <form
         onSubmit={handleSubmit}

@@ -111,8 +111,8 @@ const CustomersList = () => {
                   </td>
                   <td className="font-normal text-xs text-gray-600 text-center py-4">
                     {customer?.orderType === "LabOrder"
-                      ? "Lab Order"
-                      : "New Patient"}
+                      ? "Only Lab Order"
+                      : "Therapy Order"}
                   </td>
                 </tr>
               );
