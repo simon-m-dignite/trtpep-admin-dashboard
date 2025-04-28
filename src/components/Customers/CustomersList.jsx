@@ -11,7 +11,10 @@ const CustomersList = () => {
       try {
         const res = await customerServices.handleFetchCustomers();
         console.log("customers data >> ", res);
-        setCustomers(res.data);
+        const sortedCustomers = res.data.sort(
+          (a, b) => new Date(b.lastOrderDate) - new Date(a.lastOrderDate)
+        );
+        setCustomers(sortedCustomers);
       } catch (error) {
         console.log("err >> ", error);
       }

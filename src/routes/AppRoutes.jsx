@@ -30,6 +30,14 @@ import AddBlogPage from "../pages/blogs/AddBlogPage";
 import CustomerDetailsPage from "../pages/customers/CustomerDetailsPage";
 import PricesPage from "../pages/prices/PricesPage";
 import UpdatePricesPage from "../pages/prices/UpdatePricesPage";
+import PractitionersPage from "../pages/practitioner/PractitionersPage";
+import AddPractitionerPage from "../pages/practitioner/AddPractitionerPage";
+import PractitionerPage from "../pages/practitioner/PractitionerPage";
+import UpdatePractitioner from "../pages/practitioner/UpdatePractitioner";
+import AddPharmaciesPage from "../pages/Pharmacies/AddPharmaciesPage";
+import UpdatePharmacies from "../pages/Pharmacies/UpdatePharmacies";
+import PharmaciesPage from "../pages/Pharmacies/PharmaciesPage";
+import DetailPharmaciesPage from "../pages/Pharmacies/DetailPharmaciesPage";
 
 const isAuthenticated = () => {
   return Cookies.get("token") !== undefined;
@@ -285,6 +293,85 @@ const AppRoutes = () => {
         element={
           <AuthRoute
             element={<Layout pages={<UpdateBlog />} />}
+            redirectTo={"/login"}
+          />
+        }
+      />
+
+      <Route
+        path="/practitioner"
+        element={
+          <AuthRoute
+            element={<Layout pages={<PractitionersPage />} />}
+            redirectTo={"/login"}
+          />
+        }
+      />
+
+      <Route
+        path="/practitioner/add-new-practitioner"
+        element={
+          <AuthRoute
+            element={<Layout pages={<AddPractitionerPage />} />}
+            redirectTo={"/login"}
+          />
+        }
+      />
+
+      <Route
+        path="/practitioner/get/:_id"
+        element={
+          <AuthRoute
+            element={<Layout pages={<PractitionerPage />} />}
+            redirectTo={"/login"}
+          />
+        }
+      />
+
+      <Route
+        path="/practitioner/update-practitioner/:_id"
+        element={
+          <AuthRoute
+            element={<Layout pages={<UpdatePractitioner />} />}
+            redirectTo={"/login"}
+          />
+        }
+      />
+      {/* Pharmacies */}
+      <Route
+        path="/pharmacies"
+        element={
+          <AuthRoute
+            element={<Layout pages={<PharmaciesPage />} />}
+            redirectTo={"/login"}
+          />
+        }
+      />
+
+      <Route
+        path="/pharmacies/add-new-pharmacies"
+        element={
+          <AuthRoute
+            element={<Layout pages={<AddPharmaciesPage />} />}
+            redirectTo={"/login"}
+          />
+        }
+      />
+
+      <Route
+        path="/pharmacies/get/:_id"
+        element={
+          <AuthRoute
+            element={<Layout pages={<DetailPharmaciesPage />} />}
+            redirectTo={"/login"}
+          />
+        }
+      />
+      <Route
+        path="/pharmacies/update-pharmacies/:_id"
+        element={
+          <AuthRoute
+            element={<Layout pages={<UpdatePharmacies />} />}
             redirectTo={"/login"}
           />
         }

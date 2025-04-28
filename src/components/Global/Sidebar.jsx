@@ -105,6 +105,28 @@ const Sidebar = () => {
       >
         Blogs
       </button>
+      <button
+        type="button"
+        onClick={() => navigateTo("practitioner", "/practitioner")}
+        className={`w-full ${
+          activeLink === "practitioner"
+            ? "bg-red-500 text-white"
+            : "bg-white text-black"
+        } py-2.5 px-4 lg:px-6 text-sm rounded-lg text-start`}
+      >
+        Practitioner
+      </button>
+      <button
+        type="button"
+        onClick={() => navigateTo("pharmacies", "/pharmacies")}
+        className={`w-full ${
+          activeLink === "pharmacies"
+            ? "bg-red-500 text-white"
+            : "bg-white text-black"
+        } py-2.5 px-4 lg:px-6 text-sm rounded-lg text-start`}
+      >
+        Pharmacies
+      </button>
 
       <div className="w-full">
         <button
